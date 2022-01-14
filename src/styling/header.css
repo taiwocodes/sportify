@@ -1,0 +1,16 @@
+.header-image{
+    background-image: url(https://sportify-git-master.itope84.vercel.app/img/bg-football.2d1b7b03.jpg);
+    position: relative;
+    min-height: 300px;
+    background-position: 50%;
+    background-size: cover;
+}
+.logo-container{
+    max-width: 200px;
+    margin: auto;
+}
+.logo{
+    max-width: 100%;
+    height: auto;
+    padding-top: 53%;
+}
