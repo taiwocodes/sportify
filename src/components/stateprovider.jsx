@@ -1,45 +1,38 @@
-import {createContext, useReducer} from 'react'
+import { createContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
-function reducer(appstate, action) {
-    // create a copy of state
-    let stateCopy = { ...appstate };
-
-    // set the name on state copy to action
-    stateCopy.action = action;
-
-    if (action.type === "VIEW_COMPETITIONS"){
-        stateCopy.viewCompetitions = action.payload;
-    }
-    
-    if (action.type === "VIEW_STANDINGS"){
-        stateCopy.viewStandings = action.payload;
-    }
-
-    if( action.type === "VIEW_MATCHES"){
-        stateCopy.viewMatches = action.payload;
-    }
-
-    return stateCopy;
-}
-
 const initialState = {
-    competitions: [],
-	matches: [],
-    standings: [],
+    competitions: []
 };
 
+const Appstate = ({ children }) => {
+    const [state, setState] = useState(initialState)
 
-export default function StateProvider({ children }) {
-    const [appstate, dispatch] = useReducer(reducer, initialState);
-
-    const contextObject = {
-        state: appstate,
-        dispatch: dispatch,
-    };
-
+    useEffect(() => {
+        fetch('http://api.football-data.org/v2/competitions/', {
+            headers: { 'X-Auth-Token': '05c269e55b8645d7a548b1f608b5fa4c' },
+            method: 'GET',
+		})
+            .then(res => res.json())
+            .then(result => {
+                setState(prevValue => {
+                    return {
+                        ...prevValue,
+                        competitions: result.competitions,
+                    };
+                });
+            })
+            .catch((error) => {
+                throw new Error(error);
+            });
+    }, [])
+    
     return (
-        <AppContext.Provider value={contextObject}>{children}</AppContext.Provider>
+        <AppContext.Provider value={{ state, setState }}>
+            {children}
+        </AppContext.Provider>
     );
 }
+ 
+export default Appstate;

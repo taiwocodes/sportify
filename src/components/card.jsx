@@ -1,33 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import '../styling/card.css';
 
-const Card = ({competitions}) => {
-	const navigate = useNavigate();
-
-	function viewMatches() {
-		fetch(`https://api.football-data.orgv2/competitions/{id}/matches`, {
-            headers: { 'X-Auth-Token': '05c269e55b8645d7a548b1f608b5fa4c' },
-            method: 'GET',
-            mode: 'no-cors',
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				console.log(result);
-
-				navigate('/matches');
-
-			})
-			.catch((err) => {
-				alert('Unable to complete request. Please try again after some time');
-				console.log({ err });
-			});
-	};
+const Card = ({ id, area, plan }) => {
+	
 	return (
-			<div className='card' onClick={viewMatches}>
+        
+		<div className='card'>
+			{/* <Link to={`/standings/${id}`}>  */}
 				<img src='' alt='logo' />
-				<h4 className='league-title'>{competitions.AREAS}</h4>
-				<span className='location'>{competitions.PLAN}</span>
-			</div>
+				<h4 className='league-title'>{ area }</h4>
+				<span className='location'>{ plan }</span>
+			{/* </Link>  */}
+		</div>
+        
+        
 	);
 };
 export default Card;
