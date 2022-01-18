@@ -17,3 +17,21 @@
     grid-template-columns: auto auto;
     margin: auto;
 }
+
+
+li {
+    display: inline;
+    list-style-type: none;
+    text-align: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+li:hover {
+    text-decoration: underline rgb(31, 31, 49);
+}
+
+.active {
+    border-bottom: 2px solid rgb(31, 31, 49);
+  }
+  
