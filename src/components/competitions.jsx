@@ -11,8 +11,8 @@ import Card from './card'
         <div style={{fontFamily: 'Poppins,sans-serif'}} className='container'>
             <span style={{fontSize: '30px', color: '#333'}}>All Competitions</span>
             <div className='leagues-container'>
-                {context.state.competitions.map(({ id, name, area }) => (
-                    <Card key={id} name={name} area={area.name} logo={area.ensignUrl} />
+                {context.state.competitions.map(competition => (
+                    <Card key={competition.id} competition={competition} />
                 ))}
             </div>
         </div>

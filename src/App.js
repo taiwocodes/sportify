@@ -3,7 +3,8 @@ import Appstate from "./components/appstate";
 import CompetitionDetails from "./pages/competitionsDetails";
 import Header from "./components/header";
 import Home from "./pages/home";
-import Matches from "./components/matches";
+import Standings from "./components/standings";
+// import Matches from "./components/matches";
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/matches/:id" element={<Matches />} />
+              <Route path="/competitions/:competitionId" element={<Standings />} />
               <Route path="/competitionsDetails" element={<CompetitionDetails />} />
             </Routes>
         </div>

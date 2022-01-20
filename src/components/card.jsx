@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
 import '../styling/card.css';
 
-const Card = ({ name, area, logo }) => {
+const Card = ({ competition }) => {
 	
 	return (
-		<Link to="/competitionsDetails">
+		<Link to={`/competitions/${competition.id}`}>
 			<div className='card'>
-				<img src={logo} alt='logo' className='logo-image'/>
+				<img src={competition.area.ensignUrl} alt='logo' className='logo-image'/>
 				<div className='card-right'>
-					<h4 className='league-title'>{ name }</h4>
-					<span className='location'>{ area }</span>
+					<h4 className='league-title'>{ competition.name }</h4>
+					<span className='location'>{ competition.area.name }</span>
 				</div>
 			</div>
 		</Link>
