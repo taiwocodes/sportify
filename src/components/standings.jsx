@@ -2,7 +2,7 @@
 // import { useParams} from 'react-router-dom';
 // import { AppContext } from './appstate';
 
-export default function Standings({ key, standing, error, isLoaded }) {
+export default function Standings({ standing, error, isLoaded }) {
 
 	return (
 		<div>

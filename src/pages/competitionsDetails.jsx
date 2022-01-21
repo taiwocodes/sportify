@@ -67,7 +67,7 @@ const CompetitionDetails = () => {
                     <div className="standings">
                         {/* <p>This is the standings component.</p> */}
                         {standings.map(standing => (
-                                <Standings key={standing.competitionId} standing={standing} error={error} isLoaded={isLoaded} />
+                                <Standings key={standingId} standing={standing} error={error} isLoaded={isLoaded} />
                         ))}
                     </div>
                 </section>
