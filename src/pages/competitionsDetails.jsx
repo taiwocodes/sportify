@@ -24,7 +24,7 @@ const CompetitionDetails = () => {
             {currentlyViewing === "standings" &&
                 <section>
                     <div className="standings">
-                {context.state.standings.map(({ id, standingType }) => (
+                {standings.map(({ id, standingType }) => (
                         <Standings key={id} standingType={standingType}/>
                 ))}
                     </div>
@@ -33,8 +33,8 @@ const CompetitionDetails = () => {
             {currentlyViewing === "matches" &&
                 <section>
                     <div className="matches">
-                {context.state.matches.map(({ id, matchDay }) => (
-                            <Matches key={id} match/>
+                {matches.map(({ id, matchDay }) => (
+                            <Matches key={id} matchDay={matchDay}/>
                 ))}
                     </div>
                 </section>
