@@ -1,71 +1,87 @@
-import { useState, useEffect, useContext} from 'react';
-// import { useParams} from 'react-router-dom';
+import { useState, useEffect, useContext, useRef} from 'react';
+import { useParams} from 'react-router-dom';
 import { AppContext } from './appstate';
 
-export default function Standings({ }) {
-	// const { id } = useParams();
+export default function Standings({ key }) {
 	const [standings, setStandings] = useState([]);
 	const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const context = useContext(AppContext);
+    const [isLoaded, setIsLoaded] = useState(true);
 
-	// const navigate = useNavigate();
+	const { state: { competitions } } = useContext(AppContext);
+
+    const params = useParams();
+
+    const currentStandingsView = useRef(competitions.find(competition => competition.id === parseInt(params.competitionId)),
+	);
 
 	useEffect(() => {
-		fetch(`http://api.football-data.org/v2/competitions/{context.state.competitions.id}/standings?standingType=TOTAL`, {
+		const abortController = new AbortController();
+
+		fetch(`http://api.football-data.org/v2/competitions/${currentStandingsView.current.id}/standings?standingType=TOTAL`, {
 			headers: { 'X-Auth-Token': '05c269e55b8645d7a548b1f608b5fa4c' },
 			method: 'GET',
-			mode: 'no-cors',
+		}, {signal: abortController.signal})
+		.then(res => {
+			// console.log(res);
+			if (!res.ok) {
+				throw new Error ("Could not fetch data for the resource");
+			}
+			return res.json();
 		})
-			.then((res) => res.json())
-			.then((result) => {
-				if (result.status !== 200) {
-					console.log('An error has occured');
-				}
-                setIsLoaded(true);
-				setStandings(result);
-				// navigate('/standings');
-			})
-			.catch((error) => {
-            setIsLoaded(true);
-				setError(error);
-			});
-	}, [context.state.competitions.id]);
+		.then((result) => {
+			console.log(result);
+			setIsLoaded(false);
+			setStandings(result.filter.standings);
+			setError(null);
+		}).catch((err) => {
+			setError(err.message);
+			setIsLoaded(false);
+		});
+
+		return () => abortController.abort();
+	}, [currentStandingsView.current.id]);
+
 	return (
 		<div>
-             { isLoaded && <div>Loading...</div> }
-      { error && <div>{ error }</div> }
-      { standings && (
-          <div>
-			<table>
-				<tr>
-					<th>Position</th>
-					<th>Team</th>
-					<th>MP</th>
-					<th>W</th>
-					<th>D</th>
-					<th>L</th>
-					<th>GF</th>
-					<th>GA</th>
-					<th>Pts</th>
-				</tr>
-				<tr>
-					<td>{standings.table.position}</td>
-					<td>
-						<span>{standings.table.team.crestUrl}</span>
-						<span> {standings.table.team.name} </span>
-					</td>
-					<td>{standings.table.playedGames}</td>
-					<td>{standings.table.won}</td>
-					<td>{standings.table.draw}</td>
-					<td>{standings.table.lost}</td>
-					<td>{standings.table.goalsFor}</td>
-					<td>{standings.table.goalsAgainst}</td>
-					<td>{standings.table.points}</td>
-				</tr>
-			</table>
-        </div>
-      )}
+            { isLoaded && <div>Loading...</div> }
+			{ error && <div>{ error }</div> }
+			{ standings && (
+				<div>
+					<table>
+						<thead>
+							<tr>
+								<th>Position</th>
+								<th>Team</th>
+								<th>MP</th>
+								<th>W</th>
+								<th>D</th>
+								<th>L</th>
+								<th>GF</th>
+								<th>GA</th>
+								<th>Pts</th>
+							</tr>
+						</thead>
+						{standings.map((standing) => (
+							<tbody>
+								<tr>
+									<td>{standing.table.position}</td>
+									<td>
+										<span>{standing.table.team.crestUrl}</span>
+										<span> {standing.table.team.name} </span>
+									</td>
+									<td>{standing.table.playedGames}</td>
+									<td>{standing.table.won}</td>
+									<td>{standing.table.draw}</td>
+									<td>{standing.table.lost}</td>
+									<td>{standing.table.goalsFor}</td>
+									<td>{standing.table.goalsAgainst}</td>
+									<td>{standing.table.points}</td>
+								</tr>
+							</tbody>
+						))}
+					</table>
+				</div>
+			)}
 		</div>
 	);
 }

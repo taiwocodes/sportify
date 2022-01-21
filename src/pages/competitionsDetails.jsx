@@ -1,7 +1,8 @@
 import { useState } from "react";
+// import { useParams } from "react-router-dom";
 import '../styling/leagues.css';
-import Standings from "../components/standings";
-import Matches from "../components/matches";
+// import Standings from "../components/standings";
+// import Matches from "../components/matches";
 // import { AppContext } from "../components/appstate";
 
 
@@ -24,18 +25,21 @@ const CompetitionDetails = () => {
             {currentlyViewing === "standings" &&
                 <section>
                     <div className="standings">
-                {standings.map(({ id, standingType }) => (
+                        <p>This is the standings component.</p>
+                {/* {standings.map(({ id, standingType }) => (
                         <Standings key={id} standingType={standingType}/>
-                ))}
+                ))} */}
                     </div>
                 </section>
             }
             {currentlyViewing === "matches" &&
                 <section>
                     <div className="matches">
-                {matches.map(({ id, matchDay }) => (
-                            <Matches key={id} matchDay={matchDay}/>
-                ))}
+                    <p>Hi, this is the match component.</p>
+
+                {/* {matches.map(({ id, matchDay }) => (
+                            <Matches key={id} matchDay={}/>
+                ))} */}
                     </div>
                 </section>
             }
