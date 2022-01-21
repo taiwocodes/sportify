@@ -3,7 +3,7 @@ import Appstate from "./components/appstate";
 import CompetitionDetails from "./pages/competitionsDetails";
 import Header from "./components/header";
 import Home from "./pages/home";
-import Standings from "./components/standings";
+// import Standings from "./components/standings";
 // import Matches from "./components/matches";
 
 
@@ -16,8 +16,8 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/competitions/:competitionId" element={<Standings />} />
-              <Route path="/competitionsDetails" element={<CompetitionDetails />} />
+              <Route path="/competitions/:competitionId" element={<CompetitionDetails />} />
+              {/* <Route path="/competitionsDetails" element={<CompetitionDetails />} /> */}
             </Routes>
         </div>
         </div>
